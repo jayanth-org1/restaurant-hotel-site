@@ -31,7 +31,7 @@ const About = () => {
             <Typography paragraph>
               To provide our guests with an unforgettable experience through excellent 
               service, comfortable accommodations, and exceptional dining, while maintaining 
-              the highest standards of quality and hospitality.
+              the highest standards of quality and hospitality to make our guests feel at home.
             </Typography>
           </Paper>
         </Grid>
