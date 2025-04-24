@@ -1,0 +1,15 @@
+src/
+  ├── components/
+  │   ├── Navbar.js
+  │   ├── Footer.js
+  │   └── RoomCard.js
+  ├── pages/
+  │   ├── Home.js
+  │   ├── Restaurant.js
+  │   ├── Rooms.js
+  │   ├── About.js
+  │   └── Contact.js
+  ├── assets/
+  │   └── images/
+  ├── App.js
+  └── index.js 
