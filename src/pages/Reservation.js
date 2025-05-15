@@ -49,6 +49,16 @@ const Reservation = () => {
     }
   }, [currentUser]);
   
+  // Add the large party effect here, before any conditional returns
+  useEffect(() => {
+    if (reservation.guests > 8) {
+      setReservation(prev => ({
+        ...prev,
+        specialRequests: prev.specialRequests + " Large party requires special arrangement."
+      }));
+    }
+  }, [reservation.guests]); // Only depend on guests, not the entire reservation object
+  
   // Actually use loadingUserData in the UI
   if (loadingUserData) {
     return (
@@ -78,6 +88,21 @@ const Reservation = () => {
   // Submit reservation
   const handleSubmit = (e) => {
     e.preventDefault();
+    
+    // Use the variables or remove them
+    const selectedDate = new Date(reservation.date.replace(/-/g, '/'));
+    // Check if the date is valid
+    if (isNaN(selectedDate.getTime())) {
+      setErrors(prev => ({...prev, date: 'Invalid date format'}));
+      return;
+    }
+    
+    const partySize = reservation.guests.toString();
+    // Validate party size
+    if (isNaN(parseInt(partySize))) {
+      setErrors(prev => ({...prev, guests: 'Party size must be a number'}));
+      return;
+    }
     
     const validationErrors = validateReservation(reservation);
     
