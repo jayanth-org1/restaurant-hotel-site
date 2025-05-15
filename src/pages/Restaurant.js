@@ -1,4 +1,6 @@
 import { Container, Typography, Grid, Card, CardMedia, CardContent, Box, Divider } from '@mui/material';
+import Reviews from '../components/Reviews';
+import SpecialOffers from '../components/SpecialOffers';
 
 const menuItems = {
   starters: [
@@ -21,21 +23,66 @@ const Restaurant = () => {
       <Typography variant="h2" component="h1" align="center" gutterBottom>
         Our Restaurant
       </Typography>
-      <Typography variant="h5" align="center" color="text.secondary" sx={{ mb: 6 }}>
-        Experience Fine Dining at its Best
+      
+      <Grid container spacing={4} sx={{ mb: 6 }}>
+        <Grid item xs={12} md={6}>
+          <CardMedia
+            component="img"
+            height="400"
+            image="https://source.unsplash.com/random/800x600/?restaurant"
+            alt="Restaurant interior"
+            sx={{ borderRadius: 2 }}
+          />
+        </Grid>
+        <Grid item xs={12} md={6}>
+          <Typography variant="h4" gutterBottom>
+            Fine Dining Experience
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Welcome to our elegant restaurant where culinary excellence meets warm hospitality. 
+            Our chefs create memorable dishes using the finest seasonal ingredients, 
+            sourced locally whenever possible.
+          </Typography>
+          <Typography variant="body1" paragraph>
+            Whether you're joining us for an intimate dinner, a family celebration, 
+            or a business meeting, we strive to make every visit special.
+          </Typography>
+          <Typography variant="h6" gutterBottom sx={{ mt: 3 }}>
+            Opening Hours
+          </Typography>
+          <Typography variant="body1">
+            Monday: Closed<br />
+            Tuesday - Thursday: 5:00 PM - 10:00 PM<br />
+            Friday - Saturday: 5:00 PM - 11:00 PM<br />
+            Sunday: 4:00 PM - 9:00 PM
+          </Typography>
+        </Grid>
+      </Grid>
+      
+      {/* Special Offers Section */}
+      <Box sx={{ mb: 6 }}>
+        <SpecialOffers />
+      </Box>
+      
+      <Divider sx={{ my: 6 }} />
+      
+      {/* Menu Preview Section */}
+      <Typography variant="h3" component="h2" align="center" gutterBottom>
+        Menu Highlights
       </Typography>
-
+      
       {Object.entries(menuItems).map(([category, items]) => (
         <Box key={category} sx={{ mb: 6 }}>
-          <Typography variant="h4" sx={{ mb: 3, textTransform: 'capitalize' }}>
-            {category.replace(/([A-Z])/g, ' $1').trim()}
+          <Typography variant="h4" component="h3" gutterBottom sx={{ mt: 4 }}>
+            {category === 'starters' ? 'Starters' : 
+             category === 'mainCourse' ? 'Main Course' : 'Desserts'}
           </Typography>
           <Grid container spacing={3}>
             {items.map((item, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
                 <Card>
                   <CardContent>
-                    <Typography variant="h6" gutterBottom>
+                    <Typography variant="h6" component="div">
                       {item.name}
                     </Typography>
                     <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
@@ -51,6 +98,11 @@ const Restaurant = () => {
           </Grid>
         </Box>
       ))}
+      
+      <Divider sx={{ my: 6 }} />
+      
+      {/* Reviews Section */}
+      <Reviews />
     </Container>
   );
 };
