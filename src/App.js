@@ -14,6 +14,9 @@ import Contact from './pages/Contact';
 import NotFound from './pages/NotFound';
 import OrderHistory from './pages/OrderHistory';
 
+// Components
+import GlobalNotification from './components/GlobalNotification';
+
 // Context
 import { CartProvider } from './context/CartContext';
 import { UserPreferencesProvider } from './context/UserPreferencesContext';
@@ -63,6 +66,7 @@ function App() {
           </Router>
         </CartProvider>
       </UserPreferencesProvider>
+      <GlobalNotification />
     </ThemeProvider>
   );
 }

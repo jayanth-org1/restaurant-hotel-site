@@ -25,7 +25,8 @@ import { weeklySpecials } from '../data/menuData';
 const SpecialOffers = () => {
   const [couponDialogOpen, setCouponDialogOpen] = useState(false);
   const [couponCode, setCouponCode] = useState('');
-  const { items, addToCart, removeFromCart } = useCart();
+  const [couponError, setCouponError] = useState('');
+  const { items, addToCart, removeFromCart, applyDiscount } = useCart();
   
   // Add this function to get a fallback image if the provided one fails
   const getFallbackImage = (category) => {
@@ -41,10 +42,19 @@ const SpecialOffers = () => {
   };
   
   const handleApplyCoupon = () => {
-    // In a real app, this would validate the coupon with a backend
-    console.log('Applying coupon:', couponCode);
-    setCouponDialogOpen(false);
-    setCouponCode('');
+    // Call the applyDiscount function from CartContext
+    try {
+      const success = applyDiscount(couponCode);
+      if (success) {
+        setCouponDialogOpen(false);
+        setCouponCode('');
+        setCouponError('');
+      } else {
+        setCouponError('Invalid coupon code');
+      }
+    } catch (error) {
+      setCouponError('Error applying coupon');
+    }
   };
   
   // Add item to cart
@@ -173,6 +183,8 @@ const SpecialOffers = () => {
             variant="outlined"
             value={couponCode}
             onChange={(e) => setCouponCode(e.target.value)}
+            error={!!couponError}
+            helperText={couponError}
           />
         </DialogContent>
         <DialogActions>

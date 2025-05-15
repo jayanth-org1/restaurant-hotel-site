@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import { Container, Typography, TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert, FormControlLabel, Checkbox, Box } from '@mui/material';
+import { useState, useEffect } from 'react';
+import { Container, Typography, TextField, Button, Grid, Paper, FormControl, InputLabel, Select, MenuItem, Snackbar, Alert, FormControlLabel, Checkbox, Box, CircularProgress } from '@mui/material';
 import { validateReservation, formatCurrency } from '../utils/helpers';
 import { useCart } from '../context/CartContext';
+import { usePreferences } from '../context/UserPreferencesContext';
+import { UserService } from '../services/UserService';
 
 const Reservation = () => {
   const [reservation, setReservation] = useState({
@@ -22,7 +24,39 @@ const Reservation = () => {
   });
   
   const { items, total } = useCart();
+  const { currentUser } = usePreferences();
   const [includePreOrder, setIncludePreOrder] = useState(false);
+  const [loadingUserData, setLoadingUserData] = useState(false);
+  
+  // Load user data when component mounts
+  useEffect(() => {
+    if (currentUser) {
+      setLoadingUserData(true);
+      
+      // Get user profile from UserService
+      const userProfile = UserService.getProfile(currentUser);
+      
+      if (userProfile) {
+        setReservation(prev => ({
+          ...prev,
+          name: userProfile.name || prev.name,
+          email: userProfile.email || prev.email,
+          phone: userProfile.phone || prev.phone
+        }));
+      }
+      
+      setLoadingUserData(false);
+    }
+  }, [currentUser]);
+  
+  // Actually use loadingUserData in the UI
+  if (loadingUserData) {
+    return (
+      <Box sx={{ display: 'flex', justifyContent: 'center', my: 4 }}>
+        <CircularProgress />
+      </Box>
+    );
+  }
   
   // Handle input changes
   const handleChange = (e) => {

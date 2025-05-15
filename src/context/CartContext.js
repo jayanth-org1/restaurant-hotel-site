@@ -1,5 +1,6 @@
 import { createContext, useContext, useReducer, useEffect } from 'react';
 import { calculateTax } from '../utils/helpers';
+import { NotificationService } from '../services/NotificationService';
 
 // Initial cart state
 const initialState = {
@@ -142,19 +143,49 @@ export const CartProvider = ({ children }) => {
   const addToCart = (item) => {
     if (!item) return;
     dispatch({ type: 'ADD_ITEM', payload: item });
+    NotificationService.notify(`Added ${item.name} to cart`, 'success');
   };
   
   const removeFromCart = (item) => {
     if (!item) return;
     dispatch({ type: 'REMOVE_ITEM', payload: item });
+    NotificationService.notify(`Removed ${item.name} from cart`, 'info');
   };
   
   const clearCart = () => {
     dispatch({ type: 'CLEAR_CART' });
+    NotificationService.notify('Cart cleared', 'info');
   };
   
   const toggleCart = (isOpen) => {
     dispatch({ type: 'TOGGLE_CART', payload: isOpen });
+  };
+  
+  // New function that can be called from other components
+  const applyDiscount = (code) => {
+    // In a real app, this would validate the code with a backend
+    const discountPercent = 10; // Example: 10% discount
+    
+    const subtotalWithDiscount = state.subtotal * (1 - discountPercent / 100);
+    const taxWithDiscount = calculateTax(subtotalWithDiscount);
+    const totalWithDiscount = subtotalWithDiscount + taxWithDiscount;
+    
+    dispatch({
+      type: 'REPLACE_CART',
+      payload: {
+        ...state,
+        subtotal: subtotalWithDiscount,
+        tax: taxWithDiscount,
+        total: totalWithDiscount,
+        discountApplied: {
+          code,
+          percent: discountPercent
+        }
+      }
+    });
+    
+    NotificationService.notify(`Discount code ${code} applied: ${discountPercent}% off`, 'success');
+    return true;
   };
   
   return (
@@ -163,7 +194,8 @@ export const CartProvider = ({ children }) => {
       addToCart,
       removeFromCart,
       clearCart,
-      toggleCart
+      toggleCart,
+      applyDiscount
     }}>
       {children}
     </CartContext.Provider>

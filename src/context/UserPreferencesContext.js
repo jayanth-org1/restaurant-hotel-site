@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { UserService } from '../services/UserService';
 
 // Default preferences
 const defaultPreferences = {
@@ -13,34 +14,37 @@ const UserPreferencesContext = createContext();
 
 export const UserPreferencesProvider = ({ children }) => {
   const [preferences, setPreferences] = useState(defaultPreferences);
+  const [currentUser] = useState('user@example.com'); // For demo purposes
   
-  // Load preferences from localStorage on initial render
+  // Load preferences from UserService on initial render
   useEffect(() => {
-    const savedPreferences = localStorage.getItem('userPreferences');
-    if (savedPreferences) {
-      try {
-        setPreferences(JSON.parse(savedPreferences));
-      } catch (error) {
-        console.error('Error parsing saved preferences:', error);
-      }
+    const userProfile = UserService.getProfile(currentUser);
+    if (userProfile && userProfile.preferences) {
+      setPreferences({
+        ...defaultPreferences,
+        ...userProfile.preferences
+      });
     }
-  }, []);
-  
-  // Save preferences to localStorage when they change
-  useEffect(() => {
-    localStorage.setItem('userPreferences', JSON.stringify(preferences));
-  }, [preferences]);
+  }, [currentUser]);
   
   // Update a specific preference
   const updatePreference = (key, value) => {
-    setPreferences(prev => ({
-      ...prev,
+    const updatedPreferences = {
+      ...preferences,
       [key]: value
-    }));
+    };
+    
+    setPreferences(updatedPreferences);
+    
+    // Update in UserService
+    UserService.updateProfile(currentUser, {
+      preferences: updatedPreferences
+    });
   };
   
   // Add a favorite item
   const addFavorite = (itemId) => {
+    UserService.addFavorite(currentUser, itemId);
     setPreferences(prev => ({
       ...prev,
       favoriteItems: [...prev.favoriteItems, itemId]
@@ -49,6 +53,7 @@ export const UserPreferencesProvider = ({ children }) => {
   
   // Remove a favorite item
   const removeFavorite = (itemId) => {
+    UserService.removeFavorite(currentUser, itemId);
     setPreferences(prev => ({
       ...prev,
       favoriteItems: prev.favoriteItems.filter(id => id !== itemId)
@@ -57,7 +62,7 @@ export const UserPreferencesProvider = ({ children }) => {
   
   // Check if an item is a favorite
   const isFavorite = (itemId) => {
-    return preferences.favoriteItems.includes(itemId);
+    return UserService.isFavorite(currentUser, itemId);
   };
   
   return (
@@ -66,7 +71,8 @@ export const UserPreferencesProvider = ({ children }) => {
       updatePreference,
       addFavorite,
       removeFavorite,
-      isFavorite
+      isFavorite,
+      currentUser
     }}>
       {children}
     </UserPreferencesContext.Provider>
