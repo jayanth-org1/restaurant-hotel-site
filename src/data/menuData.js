@@ -1,109 +1,37 @@
 // Shared menu data for use across components
 
-export const menuItems = {
-  starters: [
-    { 
-      id: 'starter1',
-      name: 'Caesar Salad', 
-      price: 12.99, 
-      description: 'Fresh romaine lettuce, croutons, parmesan',
-      vegetarian: true,
-      allergens: ['dairy', 'gluten']
-    },
-    { 
-      id: 's2',
-      name: 'Soup of the Day', 
-      price: 8.99, 
-      description: 'Chef\'s special preparation, ask your server for today\'s selection',
-      allergens: ['varies'],
-      vegetarian: false
-    },
-    { 
-      id: 's3',
-      name: 'Bruschetta', 
-      price: 10.99, 
-      description: 'Grilled bread rubbed with garlic and topped with diced tomatoes, fresh basil, and olive oil',
-      allergens: ['gluten'],
-      vegetarian: true
-    },
-    { 
-      id: 's4',
-      name: 'Calamari', 
-      price: 14.99, 
-      description: 'Lightly fried squid served with marinara sauce and lemon wedges',
-      allergens: ['gluten', 'seafood'],
-      vegetarian: false
-    }
-  ],
-  mainCourse: [
-    { 
-      id: 'm1',
-      name: 'Grilled Salmon', 
-      price: 28.99, 
-      description: 'Fresh Atlantic salmon with seasonal vegetables and lemon butter sauce',
-      allergens: ['fish', 'dairy'],
-      vegetarian: false
-    },
-    { 
-      id: 'm2',
-      name: 'Beef Tenderloin', 
-      price: 34.99, 
-      description: '8oz tenderloin with mushroom sauce, garlic mashed potatoes, and roasted vegetables',
-      allergens: ['dairy'],
-      vegetarian: false
-    },
-    { 
-      id: 'm3',
-      name: 'Vegetable Risotto', 
-      price: 22.99, 
-      description: 'Creamy Arborio rice with seasonal vegetables, white wine, and parmesan cheese',
-      allergens: ['dairy'],
-      vegetarian: true
-    },
-    { 
-      id: 'm4',
-      name: 'Chicken Parmesan', 
-      price: 24.99, 
-      description: 'Breaded chicken breast topped with marinara sauce and mozzarella, served with spaghetti',
-      allergens: ['gluten', 'dairy'],
-      vegetarian: false
-    }
-  ],
-  desserts: [
-    { 
-      id: 'd1',
-      name: 'Chocolate Fondant', 
-      price: 9.99, 
-      description: 'Warm chocolate cake with a molten center, served with vanilla ice cream',
-      allergens: ['dairy', 'gluten', 'eggs'],
-      vegetarian: true
-    },
-    { 
-      id: 'd2',
-      name: 'Crème Brûlée', 
-      price: 8.99, 
-      description: 'Classic French custard with caramelized sugar top',
-      allergens: ['dairy', 'eggs'],
-      vegetarian: true
-    },
-    { 
-      id: 'd3',
-      name: 'Tiramisu', 
-      price: 10.99, 
-      description: 'Coffee-soaked ladyfingers layered with mascarpone cream and dusted with cocoa',
-      allergens: ['dairy', 'gluten', 'eggs'],
-      vegetarian: true
-    },
-    { 
-      id: 'd4',
-      name: 'Seasonal Fruit Tart', 
-      price: 11.99, 
-      description: 'Buttery pastry shell filled with vanilla custard and topped with fresh seasonal fruits',
-      allergens: ['dairy', 'gluten', 'eggs'],
-      vegetarian: true
-    }
-  ]
-};
+export const menuItemsData = [
+  {
+    id: 1,
+    name: "Greek Salad",
+    description: "Fresh and crispy salad with tomatoes, cucumbers, olives and feta cheese.",
+    price: 12.99,
+    image: "/images/greek-salad.jpg",
+    category: "starters"
+  },
+  {
+    id: 2,
+    name: "Bruschetta",
+    description: "Toasted bread with tomatoes, garlic and basil.",
+    price: 8.99,
+    image: "/images/bruschetta.jpg",
+    category: "starters"
+  },
+  {
+    id: 3,
+    name: "Lemon Dessert",
+    price: 6.99,
+    category: "desserts"
+  },
+  {
+    id: 3,
+    name: "Grilled Fish",
+    description: "Fresh catch of the day, grilled to perfection with lemon and herbs.",
+    price: 24.99,
+    image: "/images/grilled-fish.jpg",
+    category: "mains"
+  }
+];
 
 // Special menu items that change weekly
 export const weeklySpecials = [
@@ -142,4 +70,6 @@ export const winePairings = {
   'm3': ['Pinot Noir', 'Chianti'],
   'd1': ['Port', 'Dessert Wine'],
   'd3': ['Moscato d\'Asti']
-}; 
+};
+
+export const menuItems = []; 
