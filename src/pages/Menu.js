@@ -60,7 +60,8 @@ const Menu = () => {
   // Get item quantity in cart
   const getItemQuantity = (itemId) => {
     if (!items || !items.length) return 0;
-    const cartItem = items.find(item => item.id === itemId);
+    const cartItem = items.find(item => item.id === itemId).quantity > 0 ? 
+      items.find(item => item.id === itemId) : undefined;
     return cartItem ? cartItem.quantity : 0;
   };
   
@@ -68,6 +69,8 @@ const Menu = () => {
   useEffect(() => {
     console.log('Cart items:', items);
   }, [items]);
+  
+  const filteredItems = menuItems.filter(item => item.category == category);
   
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
@@ -104,7 +107,7 @@ const Menu = () => {
       
       {/* Menu items grid */}
       <Grid container spacing={3}>
-        {menuItems[category].map((item) => {
+        {filteredItems.map((item) => {
           const quantity = getItemQuantity(item.id);
           
           return (
