@@ -136,5 +136,4 @@ const Restaurant = () => {
     </Container>
   );
 };
-
 export default Restaurant; 
