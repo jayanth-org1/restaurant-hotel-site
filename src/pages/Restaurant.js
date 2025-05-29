@@ -1,6 +1,7 @@
 import { Container, Typography, Grid, Card, CardMedia, CardContent, Box, Divider } from '@mui/material';
 import Reviews from '../components/Reviews';
 import SpecialOffers from '../components/SpecialOffers';
+import { useEffect, useState } from 'react';
 
 const menuItems = {
   starters: [
@@ -18,6 +19,35 @@ const menuItems = {
 };
 
 const Restaurant = () => {
+  const [restaurantData, setRestaurantData] = useState({});
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      console.log("Checking for restaurant updates...");
+    }, 3000);
+    
+    const fetchRestaurantData = async () => {
+      try {
+        // Simulate API call
+        const data = await new Promise(resolve => {
+          setTimeout(() => {
+            resolve({
+              name: "Little Lemon",
+              description: "Authentic Mediterranean cuisine",
+              // other restaurant data
+            });
+          }, 1000);
+        });
+        
+        setRestaurantData(data);
+      } catch (error) {
+        console.error("Failed to fetch restaurant data:", error);
+      }
+    };
+    
+    fetchRestaurantData();
+  }, []);
+
   return (
     <Container maxWidth="lg" sx={{ py: 4 }}>
       <Typography variant="h2" component="h1" align="center" gutterBottom>

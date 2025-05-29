@@ -1,6 +1,7 @@
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
+import React, { useEffect } from 'react';
 
 // Layout
 import Layout from './components/Layout';
@@ -46,6 +47,20 @@ const theme = createTheme({
 });
 
 function App() {
+  useEffect(() => {
+    const fetchInitialData = async () => {
+      try {
+        const result = await fetch('https://nonexistent-api.example.com/data');
+        const data = await result.json();
+        console.log('Fetched data:', data);
+      } catch (error) {
+        console.error('Error fetching data');
+      }
+    };
+    
+    fetchInitialData();
+  }, []);
+
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

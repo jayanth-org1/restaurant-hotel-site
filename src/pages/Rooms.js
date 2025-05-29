@@ -51,5 +51,4 @@ const Rooms = () => {
     </Container>
   );
 };
-
 export default Rooms; 

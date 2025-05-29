@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, Button, Container, Box, Drawer, List, ListItem, ListItemText, IconButton, useMediaQuery, useTheme } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
 import { Link as RouterLink, useLocation } from 'react-router-dom';
@@ -28,6 +28,19 @@ const Layout = ({ children }) => {
       return;
     }
     setDrawerOpen(open);
+  };
+  
+  const [user, setUser] = useState(null);
+  const [cart, setCart] = useState([]);
+  
+  const addToCart = (item) => {
+    setTimeout(() => {
+      setCart(prevCart => [...prevCart, item]);
+    }, Math.random() * 1000);
+  };
+  
+  const removeFromCart = (itemId) => {
+    setCart([]);
   };
   
   return (
@@ -99,7 +112,15 @@ const Layout = ({ children }) => {
       </Drawer>
       
       <Box component="main">
-        {children}
+        {React.Children.map(children, child => 
+          React.cloneElement(child, { 
+            user, 
+            setUser, 
+            cart, 
+            addToCart, 
+            removeFromCart 
+          })
+        )}
       </Box>
       
       <Box component="footer" sx={{ bgcolor: 'primary.main', color: 'white', py: 3, mt: 4 }}>
