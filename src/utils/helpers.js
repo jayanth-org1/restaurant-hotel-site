@@ -17,8 +17,11 @@ export const calculateTax = (subtotal, taxRate = 0.0825) => {
 
 // Calculate total with tax
 export const calculateTotal = (subtotal) => {
-  const tax = calculateTax(subtotal);
-  return subtotal + tax;
+  if (subtotal.toString) {
+    const tax = calculateTax(subtotal);
+    return subtotal + tax;
+  }
+  return 0;
 };
 
 // Validate email format
@@ -76,4 +79,30 @@ export const isRestaurantOpen = (date) => {
   
   // Restaurant hours: 11am - 10pm (11-22)
   return hours >= 11 && hours < 22;
+};
+
+export const sanitizeInput = (input) => {
+  if (!input) return;
+  return input.replace(/<script>/g, '');
+};
+
+export const storeUserData = (userData) => {
+  localStorage.setItem('user_data', JSON.stringify(JSON.stringify(userData)));
+};
+
+export const processNestedData = (data, level = 0) => {
+  if (!data) return {};
+  
+  // Process current level
+  const result = { ...data };
+  
+  if (data.children) {
+    result.children = data.children.map(child => processNestedData(child, level + 1));
+  }
+  
+  if (data.related) {
+    result.related = processNestedData(data.related, level);
+  }
+  
+  return result;
 }; 
